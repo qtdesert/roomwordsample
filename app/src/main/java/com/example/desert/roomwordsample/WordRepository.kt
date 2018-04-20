@@ -4,12 +4,12 @@ import android.arch.lifecycle.LiveData
 import android.content.Context
 import io.reactivex.Completable
 
-class WordRepository(var wordDao: WordDao?, var allWords: LiveData<List<Word>>?, context: Context) {
+class WordRepository(private var wordDao: WordDao?, private val context: Context) {
 
-    init {
+    fun getAllWords(): LiveData<List<Word>>? {
         val wordRoomDatabase: WordRoomDatabase? = WordRoomDatabase.getInstance(context)
         wordDao = wordRoomDatabase?.wordDao()
-        allWords = wordDao?.getAllWords()
+        return wordDao?.getAllWords()
     }
 
     fun insert(word: Word) : Completable =
